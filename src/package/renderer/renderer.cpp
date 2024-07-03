@@ -30,12 +30,19 @@ void Renderer::setHeight(unsigned int height)
     Renderer::s_height = height;
 }
 
-void Renderer::draw(const VertArray &VAO, const ElemBuffer &EBO, const Shader &sh)
+void Renderer::drawElems(const VertArray &VAO, const ElemBuffer &EBO, const Shader &sh)
 {
     VAO.bind();
     EBO.bind();
     sh.bind();
     glDrawElements(GL_TRIANGLES, EBO.getCount(), GL_UNSIGNED_INT, nullptr);
+}
+
+void Renderer::drawArrs(const VertArray &VAO, unsigned int count, const Shader &sh)
+{
+    VAO.bind();
+    sh.bind();
+    glDrawArrays(GL_TRIANGLES, 0, count);
 }
 
 float Renderer::getAspectRatio()

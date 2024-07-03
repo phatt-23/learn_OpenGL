@@ -9,7 +9,7 @@ Shader::ShaderProgramSource Shader::parseShaderSource(const std::string &filepat
     
     std::ifstream stream(filepath);
     if (!stream.is_open()) {
-        terminateMessage(1, "[Shader] Filepath (%s) could not be read!\n", filepath.c_str()); 
+        throwMessage("[Shader ERR] Filepath (%s) could not be read!", filepath.c_str()); 
     }
 
     std::string line;
@@ -42,7 +42,7 @@ unsigned int Shader::compileShader(unsigned int type, const std::string &source)
         char* infoLog = (char*) alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, infoLog);
         glDeleteShader(id);
-        std::cerr << "[Shader :: ERR GL] Shader Compilation Failed (" << id << "): " << infoLog << std::endl;
+        std::cerr << std::format("[Shader :: ERR GL] Shader ({}) Compilation Failed ({}): {}", m_filepath, id, infoLog) << std::endl;
         return 0;
     }
     return id;
@@ -116,6 +116,16 @@ void Shader::setUniform3f(const std::string& name, float v0, float v1, float v2)
 void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3) 
 {
     glUniform4f(this->getUniformLocation(name), v0, v1, v2, v3);
+}
+
+void Shader::setUniform3f(const std::string &name, const glm::vec3 &v)
+{
+    glUniform3fv(this->getUniformLocation(name), 1, glm::value_ptr(v));
+}
+
+void Shader::setUniform4f(const std::string &name, const glm::vec4 &v)
+{
+    glUniform4fv(this->getUniformLocation(name), 1, glm::value_ptr(v));
 }
 
 void Shader::setUniform1d(const std::string& name, double v0) 

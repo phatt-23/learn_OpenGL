@@ -11,6 +11,7 @@ void throwMessage(const char* format, Args... args) {
     char strbuff[512] = {0};
     sprintf(strbuff, "[ERR] ");
     sprintf(strbuff, format, args...);
+    fprintf(stderr, "%s\n", strbuff);
     throw strbuff;
 }
 

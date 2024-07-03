@@ -22,7 +22,8 @@ class Renderer
         static void setHeight(unsigned int heigt);
         static float getAspectRatio();
 
-        static void draw(const VertArray& VAO, const ElemBuffer& EBO, const Shader& sh);
+        static void drawElems(const VertArray& VAO, const ElemBuffer& EBO, const Shader& sh);
+        static void drawArrs(const VertArray &VAO, unsigned int count, const Shader &sh);
 };
 
 #endif//__RENDERER_H

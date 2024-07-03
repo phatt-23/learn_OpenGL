@@ -16,6 +16,7 @@ class VertArray
         void bind() const;
         void unbind() const;
         void addBuffer(const VertBuffer& vbo, const VertBuffLayout& layout, const ElemBuffer& ebo);
+        void addBuffer(const VertBuffer& vbo, const VertBuffLayout& layout);
 };
 
 #endif//__VERT_ARRAY_H

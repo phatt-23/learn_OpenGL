@@ -8,11 +8,13 @@
 #include <format>
 #include <cstdlib>
 #include <cmath>
+#include <array>
 
-#include "../utils/utils.h"
+#include "../renderer/renderer.h"
 #include "../shader/shader.h"
 #include "../texture/texture.h"
-#include "../vertex_array/vert_array.h"
+#include "../vert_array/vert_array.h"
+#include "../utils/utils.h"
 
 void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -28,7 +30,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    
     GLFWwindow* window = glfwCreateWindow(800, 600, "Learn OpenGL", nullptr /* glfwGetPrimaryMonitor() */, nullptr);
     if (!window) { glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
@@ -36,25 +38,47 @@ int main(void)
 
     if (glewInit() != GLEW_OK) terminateMessage(-1, "GLEW did not initialise");
 
-    glViewport(0, 0, 800, 600);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glEnable(GL_DEPTH_TEST);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // wireframe
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // filled in
 
     float vertices[] = {
         // positions          // colors           // texture coords
-        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-       -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-       -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+        0.5f,  0.5f, 0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // f top right
+        0.5f, -0.5f, 0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // f bottom right
+       -0.5f, -0.5f, 0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // f bottom left
+       -0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // f top left 
+
+        0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   // b top right
+        0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,   // b bottom right
+       -0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,   // b bottom left
+       -0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,  0.0f, 1.0f,   // b top left 
     };
     unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0,
+        0, 1, 2, 2, 3, 0,
+        4, 5, 6, 6, 7, 4,
+        1, 5, 6, 6, 2, 1,
+        0, 4, 7, 7, 3, 0,
+        3, 2, 6, 6, 7, 3,
+        0, 1, 5, 5, 4, 0,
+    };
+
+    glm::vec3 positions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f), 
+        glm::vec3( 2.0f,  5.0f, -15.0f), 
+        glm::vec3(-1.5f, -2.2f, -2.5f),  
+        glm::vec3(-3.8f, -2.0f, -12.3f),  
+        glm::vec3( 2.4f, -0.4f, -3.5f),  
+        glm::vec3(-1.7f,  3.0f, -7.5f),  
+        glm::vec3( 1.3f, -2.0f, -2.5f),  
+        glm::vec3( 1.5f,  2.0f, -2.5f), 
+        glm::vec3( 1.5f,  0.2f, -1.5f), 
+        glm::vec3(-1.3f,  1.0f, -1.5f),
     };
 
     VertBuffer VBO(vertices, sizeof(vertices));
@@ -84,21 +108,28 @@ int main(void)
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        for (size_t i = 0; i < sizeof(positions)/sizeof(*positions); ++i) {
+            auto& p = positions[i];
+            glm::mat4 model, view, proj; 
+            model = glm::mat4(1.0);
+            model = glm::translate(model, p);
+            model = glm::rotate(model, i * 40.f, glm::normalize(glm::vec3(glfwGetTime(), glfwGetTime(), glfwGetTime())));
+            model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
+            view = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -3.0));
+            proj = glm::perspective(glm::radians(60.0), Renderer::getAspectRatio(), 0.1, 100.0);
 
-        shader.bind();
-        
-        glm::mat4 model       (1.0);
-        model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
-        model = glm::rotate   (model, glm::radians(-55.0f), glm::normalize(glm::vec3(1.0, 0.0, 0.0)));
-        model = glm::scale    (model, glm::vec3(1.0, 1.0, 1.0));
-        shader.setUniformMat4("vu_model", model);
-        
-        textures[0].bind(0);
-        textures[1].bind(1);
-        shader.setUniform1i("fu_Texture0", 0);
-        shader.setUniform1i("fu_Texture1", 1);
-        VAO.bind();
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+            shader.bind();
+            shader.setUniformMat4("vu_Model", model);
+            shader.setUniformMat4("vu_View", view);
+            shader.setUniformMat4("vu_Proj", proj);
+
+            textures[0].bind(0);
+            textures[1].bind(1);
+            shader.setUniform1i("fu_Texture0", 0);
+            shader.setUniform1i("fu_Texture1", 1);
+            Renderer::draw(VAO, EBO, shader);
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();

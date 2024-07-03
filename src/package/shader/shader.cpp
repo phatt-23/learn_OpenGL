@@ -65,36 +65,36 @@ unsigned int Shader::createProgram(const ShaderProgramSource &shaders)
 }
 
 Shader::Shader(const std::string &filepath) 
-    : ID(0)
-    , filepath(filepath)
+    : m_id(0)
+    , m_filepath(filepath)
 {
-    this->ID = this->createProgram(this->parseShaderSource(filepath));
+    m_id = this->createProgram(this->parseShaderSource(filepath));
 }
 
 Shader::~Shader()
 {
-    glDeleteProgram(this->ID);
+    glDeleteProgram(m_id);
 }
 
-void Shader::bind()
+void Shader::bind() const
 {
-    glUseProgram(this->ID);
+    glUseProgram(m_id);
 }
 
-void Shader::unbind()
+void Shader::unbind() const
 {
     glUseProgram(0);
 }
 
 int Shader::getUniformLocation(const std::string &name)
 {
-    if (this->uniformLocationCache.find(name) != this->uniformLocationCache.end())
-        return this->uniformLocationCache[name];
-    int location = glGetUniformLocation(this->ID, name.c_str());
+    if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
+        return m_uniformLocationCache[name];
+    int location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1) {
         std::cout << "[Shader WARN] Uniform (" << name << ") doesnt exist!" << std::endl;
     }
-    this->uniformLocationCache[name] = location;
+    m_uniformLocationCache[name] = location;
     return location;
 }
 

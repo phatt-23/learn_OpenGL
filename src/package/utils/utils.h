@@ -2,14 +2,18 @@
 #define __UTILITIES_H
 
 #include <iostream>
+#include <string>
+#include <format>
+#include <exception>
 
 template<typename... Args>
-void terminateMessage(int error_code, const char* format, Args... args) {
-    fprintf(stderr, "Error: ");
-    fprintf(stderr, format, args...);
-    exit(error_code);
+void throwMessage(const char* format, Args... args) {
+    char strbuff[512] = {0};
+    sprintf(strbuff, "[ERR] ");
+    sprintf(strbuff, format, args...);
+    throw strbuff;
 }
 
-void terminateMessage(int error_code, const char* message);
+void throwMessage(const char* message);
 
 #endif//__UTILITIES_H

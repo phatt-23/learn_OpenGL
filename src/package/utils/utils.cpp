@@ -1,6 +1,7 @@
 #include "utils.h"
 
-void terminateMessage(int error_code, const char* message) {
-    fprintf(stderr, "Error: %s", message);
-    exit(error_code);
+void throwMessage(const char* message) {
+    char strbuff[512] = {0};
+    snprintf(strbuff, 512, "[ERR] %s", message);
+    throw strbuff;
 }

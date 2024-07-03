@@ -7,6 +7,7 @@ Texture::Texture(const std::string &filepath)
     , m_filepath(filepath)
     , m_data(nullptr)
     , m_width(0), m_height(0), m_bpp(0)
+    , m_slot(0)
 {
     glGenTextures(1, &m_ID);
     glBindTexture(GL_TEXTURE_2D, m_ID);
@@ -30,13 +31,15 @@ Texture::~Texture()
     glDeleteTextures(1, &m_ID);
 }
 
-void Texture::bind(unsigned int slot) const
+void Texture::bind(unsigned int slot)
 {
+    m_slot = slot;
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, m_ID);
 }
 
 void Texture::unbind()
 {
+    glActiveTexture(GL_TEXTURE0 + m_slot);
     glBindTexture(GL_TEXTURE_2D, 0);
 }

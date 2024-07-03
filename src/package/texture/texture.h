@@ -10,12 +10,13 @@ class Texture
         const std::string m_filepath;
         unsigned char* m_data;
         int m_width, m_height, m_bpp;
+        int m_slot;
 
     public:
         Texture(const std::string& filepath);
         ~Texture();
 
-        void bind(unsigned int slot = 0) const;
+        void bind(unsigned int slot = 0);
         void unbind();
 
         inline int getWidth() const { return m_width; }

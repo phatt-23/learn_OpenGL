@@ -2,6 +2,8 @@
 #define __SHADER_H
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -47,6 +49,8 @@ class Shader
         void setUniform2ui(const std::string& name, float v0, float v1); 
         void setUniform3ui(const std::string& name, float v0, float v1, float v2); 
         void setUniform4ui(const std::string& name, float v0, float v1, float v2, float v3); 
+
+        void setUniformMat4(const std::string& name, const glm::mat4& m);
 };
 
 #endif//__SHADER_H

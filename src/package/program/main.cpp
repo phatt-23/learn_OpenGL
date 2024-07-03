@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <format>
 #include <cstdlib>
 #include <cmath>
 
@@ -66,7 +67,6 @@ int main(void)
     VAO.addBuffer(VBO, layout, EBO);
 
     Shader shader("res/shaders/basic.glsl");
-    shader.bind();
 
     Texture textures[2] = {
         {"./res/images/container.jpg"},
@@ -86,6 +86,13 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.bind();
+        
+        glm::mat4 model       (1.0);
+        model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
+        model = glm::rotate   (model, glm::radians(-55.0f), glm::normalize(glm::vec3(1.0, 0.0, 0.0)));
+        model = glm::scale    (model, glm::vec3(1.0, 1.0, 1.0));
+        shader.setUniformMat4("vu_model", model);
+        
         textures[0].bind(0);
         textures[1].bind(1);
         shader.setUniform1i("fu_Texture0", 0);
@@ -102,3 +109,24 @@ int main(void)
 
     return 0;
 }
+
+/*
+        glm::mat4 TRS(1.0);
+        TRS = glm::translate(TRS, glm::vec3(0.1, 0.2, 0.0));
+        TRS = glm::rotate(TRS, float(glfwGetTime()), glm::normalize(glm::vec3(0.0, 0.8, 1.0)));
+        TRS = glm::scale(TRS, glm::vec3(0.5, 0.5, 0.5));
+        shader.setUniformMat4("vu_TRS", TRS);
+
+
+        glm::mat4 TRS = glm::translate(
+            glm::rotate(
+                glm::scale(
+                    glm::mat4(1.0), 
+                    glm::vec3(0.5, 0.5, 0.5)
+                ), 
+                float(glfwGetTime()), 
+                glm::normalize(glm::vec3(0.0, 0.8, 1.0))
+            ),
+            glm::vec3(0.1, 0.2, 0.0)
+        );
+*/

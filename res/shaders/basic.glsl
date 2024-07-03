@@ -6,9 +6,10 @@ layout (location = 1) in vec3 vi_Color;
 layout (location = 2) in vec2 vi_TexCoord;
 out vec3 vo_Color;
 out vec2 vo_TexCoord;
+uniform mat4 vu_model;
 
 void main() {
-    gl_Position = vec4(vi_Pos, 1.0);
+    gl_Position = vu_model * vec4(vi_Pos, 1.0);
     vo_Color = vi_Color;
     vo_TexCoord = vi_TexCoord;
 }

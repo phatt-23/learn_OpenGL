@@ -14,6 +14,7 @@ void main() {
 #version 330 core
 
 out vec4 fo_Color;
+
 uniform vec3 fu_LightColor;
 
 void main() {

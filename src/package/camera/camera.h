@@ -13,7 +13,7 @@ constexpr glm::vec3 CAM_WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
 constexpr float CAM_YAW = -90.0f;
 constexpr float CAM_PITCH = 0.0f;
 constexpr float CAM_FOV = 45.0f;
-constexpr float CAM_MOVE_SPEED = 3.5f;
+constexpr float CAM_MOVE_SPEED = 5.0f;
 constexpr float CAM_MOUSE_SENSI = 0.08f;
 constexpr float CAM_PITCH_CONSTRAINT = 89.0f;
 constexpr float CAM_FOV_MIN = 1.0f;
@@ -28,7 +28,9 @@ class Camera
             H, I, J, K, L, M, N, 
             O, P, Q, R, S, T, U, 
             V, W, X, Y, Z,
-            Crtl, Shift, Space, Escape
+            lCtrl, lShift, 
+            rCtrl, rShift, 
+            Space, Escape
         };
 
     private:
@@ -53,8 +55,9 @@ class Camera
 
         inline glm::mat4 getViewMat() const { return glm::lookAt(m_pos, m_pos + m_front, m_up); }
         inline float getFOV() const { return m_fov; }
+        inline const glm::vec3& getPos() const { return m_pos; }
 
-        void processKeyboard(Key key, float dt);
+        void processKeyboard(Key key, float dt, unsigned char type = GLFW_PRESS);
         void processMouseMove(float xoffset, float yoffset);
         void processMouseScroll(float yoffset);
 };

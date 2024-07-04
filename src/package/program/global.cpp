@@ -1,16 +1,15 @@
 #include "global.h"
 
 void processInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.processKeyboard(Camera::Key::W, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-        camera.processKeyboard(Camera::Key::S, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
-        camera.processKeyboard(Camera::Key::A, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
-        camera.processKeyboard(Camera::Key::D, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_W)) camera.processKeyboard(Camera::Key::W, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S)) camera.processKeyboard(Camera::Key::S, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A)) camera.processKeyboard(Camera::Key::A, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D)) camera.processKeyboard(Camera::Key::D, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_SPACE)) camera.processKeyboard(Camera::Key::Space, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT)) camera.processKeyboard(Camera::Key::lShift, deltaTime);
+    if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT)) camera.processKeyboard(Camera::Key::lShift, deltaTime, false);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL)) camera.processKeyboard(Camera::Key::lCtrl, deltaTime);
 }
 
 void mouse_Callback(GLFWwindow *window, double xpos, double ypos)

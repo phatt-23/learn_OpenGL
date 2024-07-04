@@ -31,20 +31,32 @@ Camera::~Camera()
 {
 }
 
-void Camera::processKeyboard(Key key, float dt)
+void Camera::processKeyboard(Key key, float dt, unsigned char type)
 {
     switch (key) {
         case Key::W: {
-            m_pos += m_moveSpeed * m_front * dt;
+            // m_pos += m_moveSpeed * m_front * dt;
+            m_pos += m_moveSpeed * glm::normalize(glm::cross(m_worldUp, m_right)) * dt;
         } break;
         case Key::A: {
             m_pos -= m_moveSpeed * m_right * dt;
         } break;
         case Key::S: {
-            m_pos -= m_moveSpeed * m_front * dt;
+            // m_pos -= m_moveSpeed * m_front * dt;
+            m_pos -= m_moveSpeed * glm::normalize(glm::cross(m_worldUp, m_right)) * dt;
         } break;
         case Key::D: {
             m_pos += m_moveSpeed * m_right * dt;
+        } break;
+        case Key::Space: {
+            m_pos += m_moveSpeed * m_worldUp * dt;
+        } break;
+        case Key::lShift: {
+            if (type) m_moveSpeed = 2.0 * CAM_MOVE_SPEED;
+            else m_moveSpeed = 1.0 * CAM_MOVE_SPEED;
+        } break;
+        case Key::lCtrl: {
+            m_pos -= m_moveSpeed * m_worldUp * dt;
         } break;
         default: break;
     };

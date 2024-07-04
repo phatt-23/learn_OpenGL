@@ -110,8 +110,16 @@ int main(void)
         -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
     };
     glm::vec3 positions[] = {
-        {  0.0f,  0.0f,  0.0f  },
-        { -1.3f,  1.0f, -1.5f  },
+        glm::vec3( 0.0f,  0.0f,  0.0f), 
+        glm::vec3( 2.0f,  -10.0f, -15.0f), 
+        // glm::vec3(-1.5f, -2.2f, -2.5f),  
+        // glm::vec3(-3.8f, -2.0f, -12.3f),  
+        // glm::vec3( 2.4f, -0.4f, -3.5f),  
+        // glm::vec3(-1.7f,  3.0f, -7.5f),  
+        // glm::vec3( 1.3f, -2.0f, -2.5f),  
+        // glm::vec3( 1.5f,  2.0f, -2.5f), 
+        // glm::vec3( 1.5f,  0.2f, -1.5f), 
+        // glm::vec3(-1.3f,  1.0f, -1.5f),
     };
 
     VertBuffer VBO(vertices, sizeof(vertices));
@@ -151,6 +159,32 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        for (size_t i = 1; i < sizeof(positions)/sizeof(*positions); ++i)
+        {
+            glm::mat4 model, view, proj; 
+            model = glm::mat4(1.0);
+            model = glm::translate(model, positions[i]);
+            model = glm::rotate(model, i*40.0f, glm::normalize(glm::vec3(glfwGetTime(), glfwGetTime(), glfwGetTime())));
+            model = glm::scale(model, glm::vec3(10.0, 10.0, 10.0));
+            view = camera.getViewMat();
+            proj = glm::perspective(glm::radians(camera.getFOV()), Renderer::getAspectRatio(), 0.1f, 100.0f);
+
+            objectShader.bind();
+            objectShader.setUnifMat4("vu_Model", model);
+            objectShader.setUnifMat4("vu_View", view);
+            objectShader.setUnifMat4("vu_Proj", proj);
+            objectShader.setUnifVec3f("fu_ViewPos", camera.getPos());
+            objectShader.setUnifVec3f("fu_Material.ambient", 1.0f, 0.5f, 0.31f);
+            objectShader.setUnifVec3f("fu_Material.diffuse", 1.0f, 0.5f, 0.31f);
+            objectShader.setUnifVec3f("fu_Material.specular", 0.5f, 0.5f, 0.5f);
+            objectShader.setUnifVec1f("fu_Material.shininess", 0.6f);
+            objectShader.setUnifVec3f("fu_Light.position", positions[0]);
+            objectShader.setUnifVec3f("fu_Light.ambient", 0.5, 0.2, 0.31);
+            objectShader.setUnifVec3f("fu_Light.diffuse", 0.5, 0.2, 0.31);
+            objectShader.setUnifVec3f("fu_Light.specular", 1.0, 1.0, 1.0);
+            // Renderer::draw(objectVAO, EBO, objectShader);
+            Renderer::drawArrs(objectVAO, sizeof(vertices)/sizeof(*vertices)/6, objectShader);
+        }
         {
             glm::mat4 model, view, proj; 
             model = glm::mat4(1.0);
@@ -160,30 +194,11 @@ int main(void)
             view = camera.getViewMat();
             proj = glm::perspective(glm::radians(camera.getFOV()), Renderer::getAspectRatio(), 0.1f, 100.0f);
 
-            objectShader.bind();
-            objectShader.setUniformMat4("vu_Model", model);
-            objectShader.setUniformMat4("vu_View", view);
-            objectShader.setUniformMat4("vu_Proj", proj);
-            objectShader.setUniform3f("fu_ObjectColor", 1.0f, 0.5f, 0.31f);
-            objectShader.setUniform3f("fu_LightSrcColor", sin(3.0 * glfwGetTime()), 1.0, 1.0);
-            objectShader.setUniform3f("fu_LightSrcPos", positions[1]);
-            // Renderer::draw(objectVAO, EBO, objectShader);
-            Renderer::drawArrs(objectVAO, sizeof(vertices)/sizeof(*vertices)/6, objectShader);
-        }
-        {
-            glm::mat4 model, view, proj; 
-            model = glm::mat4(1.0);
-            model = glm::translate(model, positions[1]);
-            model = glm::rotate(model, 0.0f, glm::normalize(glm::vec3(glfwGetTime(), glfwGetTime(), glfwGetTime())));
-            model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
-            view = camera.getViewMat();
-            proj = glm::perspective(glm::radians(camera.getFOV()), Renderer::getAspectRatio(), 0.1f, 100.0f);
-
             lightShader.bind();
-            lightShader.setUniformMat4("vu_Model", model);
-            lightShader.setUniformMat4("vu_View", view);
-            lightShader.setUniformMat4("vu_Proj", proj);
-            lightShader.setUniform3f("fu_LightColor", sin(3.0 * glfwGetTime()), 1.0, 1.0);
+            lightShader.setUnifMat4("vu_Model", model);
+            lightShader.setUnifMat4("vu_View", view);
+            lightShader.setUnifMat4("vu_Proj", proj);
+            lightShader.setUnifVec3f("fu_LightColor", 1.0, 1.0, 1.0);
             // Renderer::draw(objectVAO, EBO, lightShader);
             Renderer::drawArrs(lightVAO, sizeof(vertices)/sizeof(*vertices)/6, lightShader);
         }

@@ -21,7 +21,7 @@ inline Camera camera;
 
 void mouse_Callback(GLFWwindow *window, double xpos, double ypos);
 void scroll_Callback(GLFWwindow* window, double xoffset, double yoffset);
-void customGlfwErrorCallback(int error_code, const char* description);
+void customGlfwError_Callback(int error_code, const char* description);
 void framebufferSize_Callback(GLFWwindow* window, int width, int height);
 
 void processInput(GLFWwindow* window);

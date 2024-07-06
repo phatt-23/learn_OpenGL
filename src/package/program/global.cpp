@@ -28,7 +28,7 @@ void scroll_Callback(GLFWwindow* window, double xoffset, double yoffset)
     camera.processMouseScroll(yoffset);
 }
 
-void customGlfwErrorCallback(int error_code, const char* description) {
+void customGlfwError_Callback(int error_code, const char* description) {
     std::cerr << std::format("[GLFW Error] ({}) {}\n", error_code, description) << std::endl;
 }
 

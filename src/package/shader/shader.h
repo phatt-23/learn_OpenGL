@@ -28,32 +28,36 @@ class Shader
         void bind() const;
         void unbind() const;
 
-        int getUniformLocation(const std::string& name);
+        int getUniormLocation(const std::string& name);
 
-        void setUnifVec1f(const std::string& name, float v0); 
-        void setUnifVec2f(const std::string& name, float v0, float v1); 
-        void setUnifVec3f(const std::string& name, float v0, float v1, float v2); 
-        void setUnifVec4f(const std::string& name, float v0, float v1, float v2, float v3); 
+        void setUniFloat(const std::string& name, float v);
+        void setUniVec1f(const std::string& name, float v0); 
+        void setUniVec2f(const std::string& name, float v0, float v1); 
+        void setUniVec3f(const std::string& name, float v0, float v1, float v2); 
+        void setUniVec4f(const std::string& name, float v0, float v1, float v2, float v3); 
 
-        void setUnifVec3f(const std::string& name, const glm::vec3& v); 
-        void setUnifVec4f(const std::string& name, const glm::vec4& v); 
+        void setUniVec3f(const std::string& name, const glm::vec3& v); 
+        void setUniVec4f(const std::string& name, const glm::vec4& v); 
+        
+        void setUniDouble(const std::string& name, double v);
+        void setUniVec1d(const std::string& name, double v0); 
+        void setUniVec2d(const std::string& name, double v0, double v1); 
+        void setUniVec3d(const std::string& name, double v0, double v1, double v2); 
+        void setUniVec4d(const std::string& name, double v0, double v1, double v2, double v3); 
 
-        void setUnifVec1d(const std::string& name, double v0); 
-        void setUnifVec2d(const std::string& name, double v0, double v1); 
-        void setUnifVec3d(const std::string& name, double v0, double v1, double v2); 
-        void setUnifVec4d(const std::string& name, double v0, double v1, double v2, double v3); 
+        void setUniInt(const std::string& name, int v);
+        void setUniVec1i(const std::string& name, int v0); 
+        void setUniVec2i(const std::string& name, int v0, int v1); 
+        void setUniVec3i(const std::string& name, int v0, int v1, int v2); 
+        void setUniVec4i(const std::string& name, int v0, int v1, int v2, int v3);
 
-        void setUnifVec2i(const std::string& name, int v0, int v1); 
-        void setUnifVec1i(const std::string& name, int v0); 
-        void setUnifVec3i(const std::string& name, int v0, int v1, int v2); 
-        void setUnifVec4i(const std::string& name, int v0, int v1, int v2, int v3);
+        void setUniUInt(const std::string& name, unsigned int v);
+        void setUniVec1ui(const std::string& name, unsigned int v0); 
+        void setUniVec2ui(const std::string& name, unsigned int v0, unsigned int v1); 
+        void setUniVec3ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2); 
+        void setUniVec4ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3); 
 
-        void setUnifVec1ui(const std::string& name, float v0); 
-        void setUnifVec2ui(const std::string& name, float v0, float v1); 
-        void setUnifVec3ui(const std::string& name, float v0, float v1, float v2); 
-        void setUnifVec4ui(const std::string& name, float v0, float v1, float v2, float v3); 
-
-        void setUnifMat4(const std::string& name, const glm::mat4& m);
+        void setUniMat4(const std::string& name, const glm::mat4& m);
 };
 
 #endif//__SHADER_H

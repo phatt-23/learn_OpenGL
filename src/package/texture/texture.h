@@ -17,12 +17,12 @@ class Texture
         ~Texture();
 
         void bind(unsigned int slot = 0);
-        void unbind();
+        void unbind() const;
 
         inline int getWidth() const { return m_width; }
         inline int getHeight() const { return m_height; }
         inline int getBPP() const { return m_bpp; }
-
+        inline int getSlot() const { return m_slot; }
 };
 
 #endif//__TEXTURE_H

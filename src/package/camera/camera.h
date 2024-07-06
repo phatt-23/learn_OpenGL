@@ -17,7 +17,7 @@ constexpr float CAM_MOVE_SPEED = 5.0f;
 constexpr float CAM_MOUSE_SENSI = 0.08f;
 constexpr float CAM_PITCH_CONSTRAINT = 89.0f;
 constexpr float CAM_FOV_MIN = 1.0f;
-constexpr float CAM_FOV_MAX = 120.0f;
+constexpr float CAM_FOV_MAX = 360.0f;
 
 class Camera
 {
@@ -56,6 +56,7 @@ class Camera
         inline glm::mat4 getViewMat() const { return glm::lookAt(m_pos, m_pos + m_front, m_up); }
         inline float getFOV() const { return m_fov; }
         inline const glm::vec3& getPos() const { return m_pos; }
+        inline const glm::vec3& getFront() const { return m_front; }
 
         void processKeyboard(Key key, float dt, unsigned char type = GLFW_PRESS);
         void processMouseMove(float xoffset, float yoffset);

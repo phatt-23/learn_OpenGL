@@ -27,9 +27,9 @@ void VertArray::addBuffer(const VertBuffer &vbo, const VertBuffLayout &layout, c
     this->bind();
     vbo.bind();
     ebo.bind();
-    size_t offset = 0;
+    unsigned int offset = 0;
     const auto& elems = layout.getElems();
-    for (size_t i = 0; i < elems.size(); ++i) {
+    for (std::size_t i = 0; i < elems.size(); ++i) {
         const auto& e = elems[i];
         glVertexAttribPointer(i, e.count, e.type, e.normalized, layout.getStride(), (void*) offset);
         glEnableVertexAttribArray(i);
@@ -42,9 +42,9 @@ void VertArray::addBuffer(const VertBuffer &vbo, const VertBuffLayout &layout)
 {
     this->bind();
     vbo.bind();
-    size_t offset = 0;
+    unsigned int offset = 0;
     const auto& elems = layout.getElems();
-    for (size_t i = 0; i < elems.size(); ++i) {
+    for (std::size_t i = 0; i < elems.size(); ++i) {
         const auto& e = elems[i];
         glVertexAttribPointer(i, e.count, e.type, e.normalized, layout.getStride(), (void*) offset);
         glEnableVertexAttribArray(i);

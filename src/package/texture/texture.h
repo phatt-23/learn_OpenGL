@@ -5,24 +5,30 @@
 
 class Texture
 {
+    public:
+        enum class Type { Diffuse, Specular };
+
     private:
-        unsigned int m_ID;
         const std::string m_filepath;
+        unsigned int m_ID;
+        Type m_type;
+        int m_slot;
         unsigned char* m_data;
         int m_width, m_height, m_bpp;
-        int m_slot;
 
     public:
-        Texture(const std::string& filepath);
+        Texture(const std::string& filepath, Type type);
         ~Texture();
 
         void bind(unsigned int slot = 0);
         void unbind() const;
 
+        inline Type getType() const { return m_type; }
+        inline int getSlot() const { return m_slot; }
         inline int getWidth() const { return m_width; }
         inline int getHeight() const { return m_height; }
         inline int getBPP() const { return m_bpp; }
-        inline int getSlot() const { return m_slot; }
+        inline const std::string& getFilepath() const { return m_filepath; }
 };
 
 #endif//__TEXTURE_H

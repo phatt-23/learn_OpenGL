@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <assimp/Importer.hpp>
 
 #include <iostream>
 #include <cstddef>
@@ -18,6 +19,8 @@
 #include "../vert_array/vert_array.h"
 #include "../utils/utils.h"
 #include "../camera/camera.h"
+#include "../model/model.h"
+
 #include "global.h"
 
 #define ARR_LEN(x) (sizeof((x))/sizeof((*x)))
@@ -95,23 +98,24 @@ int main(void)
     };
 
     glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f), 
-        glm::vec3( 2.0f,  -10.0f, -15.0f), 
-        glm::vec3(-1.5f, -2.2f, -2.5f),  
-        glm::vec3(-3.8f, -2.0f, -12.3f),  
-        glm::vec3( 2.4f, -0.4f, -3.5f),  
-        glm::vec3(-1.7f,  3.0f, -7.5f),  
-        glm::vec3( 1.3f, -2.0f, -2.5f),  
-        glm::vec3( 1.5f,  2.0f, -2.5f), 
-        glm::vec3( 1.5f,  0.2f, -1.5f), 
-        glm::vec3(-1.3f,  1.0f, -1.5f),
+        {  0.0f,  0.0f,   0.0f  },
+        {  2.0f, -10.0f, -15.0f },
+        { -1.5f, -2.2f,  -2.5f  },
+        { -3.8f, -2.0f,  -12.3f },
+        {  2.4f, -0.4f,  -3.5f  },
+        { -1.7f,  3.0f,  -7.5f  },
+        {  1.3f, -2.0f,  -2.5f  },
+        {  1.5f,  2.0f,  -2.5f  },
+        {  1.5f,  0.2f,  -1.5f  },
+        { -1.3f,  1.0f,  -1.5f  },
     };
 
+    
     glm::vec3 pointLightPositions[] = {
-        glm::vec3( 0.7f,  0.2f,  2.0f),
-        glm::vec3( 2.3f, -3.3f, -4.0f),
-        glm::vec3(-4.0f,  2.0f, -12.0f),
-        glm::vec3( 0.0f,  0.0f, -3.0f)
+        {  0.7f,  0.2f,  2.0f  },
+        {  2.3f, -3.3f, -4.0f  },
+        { -4.0f,  2.0f, -12.0f },
+        {  0.0f,  0.0f, -3.0   },
     };
 
     VertBuffer VBO(vertices, sizeof(vertices));
@@ -130,8 +134,8 @@ int main(void)
     Shader objectShader("res/shaders/object_.frag.vert.glsl");
     Shader lightCubeShader("res/shaders/light.frag.vert.glsl");
     Texture textures[] = {
-        {"./res/images/container2.png"},
-        {"./res/images/container2_specular.png"},
+        {"./res/images/container2.png",          Texture::Type::Diffuse  },
+        {"./res/images/container2_specular.png", Texture::Type::Specular },
     };
 
     objectShader.bind();
@@ -160,7 +164,7 @@ int main(void)
         objectShader.setUniVec3f("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // point lights
-        for (size_t i = 0; i < ARR_LEN(pointLightPositions); ++i)
+        for (unsigned int i = 0; i < ARR_LEN(pointLightPositions); ++i)
         {
             const std::string pointLight = "pointLights[" + std::to_string(i) + "]";
             objectShader.setUniVec3f(pointLight + ".position", pointLightPositions[i]);
@@ -196,10 +200,10 @@ int main(void)
         textures[1].bind(1);
 
         objectVAO.bind();
-        for (size_t i = 0; i < ARR_LEN(cubePositions); ++i) 
+        for (unsigned int i = 0; i < ARR_LEN(cubePositions); ++i) 
         {
             model = glm::translate(glm::mat4(1.0f), cubePositions[i]);
-            float angle = i * 20.0f;
+            float angle = i * 20.0f * 0.0f;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             objectShader.setUniMat4("model", model);
             Renderer::drawArrs(objectVAO, ARR_LEN(vertices)/6, objectShader);
@@ -210,7 +214,7 @@ int main(void)
         lightCubeShader.setUniMat4("view", view);
 
         lightVAO.bind();
-        for (size_t i = 0; i < ARR_LEN(pointLightPositions); ++i) 
+        for (unsigned int i = 0; i < ARR_LEN(pointLightPositions); ++i) 
         {
             model = glm::translate(glm::mat4(1.0f), pointLightPositions[i]);
             model = glm::scale(model, glm::vec3(0.2f));

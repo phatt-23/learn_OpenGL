@@ -21,13 +21,14 @@ class VertBuffLayout
         ~VertBuffLayout();
 
         template <typename T> void push(unsigned int count);
-        template <> void push<float>(unsigned int count);
-        template <> void push<unsigned int>(unsigned int count);
-        template <> void push<unsigned char>(unsigned int count);
 
         inline const std::vector<VertBuffElem>& getElems() const { return m_elems; }
         inline unsigned int getStride() const { return m_stride; }
 };
+
+template <> void VertBuffLayout::push<float>(unsigned int count);
+template <> void VertBuffLayout::push<unsigned int>(unsigned int count);
+template <> void VertBuffLayout::push<unsigned char>(unsigned int count);
 
 template <typename T>
 void VertBuffLayout::push(unsigned int count) {

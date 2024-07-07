@@ -17,7 +17,7 @@ constexpr float CAM_MOVE_SPEED = 5.0f;
 constexpr float CAM_MOUSE_SENSI = 0.08f;
 constexpr float CAM_PITCH_CONSTRAINT = 89.0f;
 constexpr float CAM_FOV_MIN = 1.0f;
-constexpr float CAM_FOV_MAX = 360.0f;
+constexpr float CAM_FOV_MAX = 120.0f;
 
 class Camera
 {

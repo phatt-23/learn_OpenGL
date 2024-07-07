@@ -42,7 +42,8 @@ Shader::ShaderProgramSource Shader::parseShaderSource(const std::string &filepat
             ss[int(type)] << line << std::endl;
     }
 
-    std::cout 
+    std::cout
+        << "[Compiling Shaders (" << filepath << ")]" << std::endl 
         << "<Vertex Shader> :: length=" << ss[0].str().length() << std::endl
         << ss[0].str() 
         << "</Vertex Shader>" << std::endl 

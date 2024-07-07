@@ -1,12 +1,12 @@
-##( MAKEFILE FOR C/C++ PROJECTS )##
+#( MAKEFILE FOR C/C++ PROJECTS )
 # >>> common
 CC					:= clang++
-CFLAGS				:= -std=c++23 -Wall -Wextra -g#-Qunused-arguments #-std=c23
-LDFLAGS   			:= -lglfw -lGL -lGLEW -lGLU -lOpenGL -lX11 -lpthread -lm
+CFLAGS				:= -std=c++23 -Wall -Wextra -g #-Qunused-arguments #-std=c23
+LDFLAGS   			:= -lglfw -lGL -lGLEW -lGLU -lOpenGL -lassimp -lX11 -lpthread -lm
 SHOW_CMD  			?=#@
 
 # >>> directory structure
-BIN_DIR   			:= debug
+BIN_DIR   			:= build
 OBJ_DIR   			:= $(BIN_DIR)/obj
 SRC_DIR				:= src
 VENDOR_DIR 			:= $(SRC_DIR)/vendor

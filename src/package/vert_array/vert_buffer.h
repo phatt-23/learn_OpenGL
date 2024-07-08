@@ -25,18 +25,16 @@ class VertBuffer
 {
     private:
         unsigned int m_id;
-        std::vector<Vertex> m_vertices;
 
     public:
         VertBuffer(const void* data, unsigned int size, GLenum usage = GL_STATIC_DRAW);
-        VertBuffer(const std::vector<Vertex> vertices, GLenum usage = GL_STATIC_DRAW);
+        VertBuffer(const std::vector<Vertex>& vertices, GLenum usage = GL_STATIC_DRAW);
         ~VertBuffer();
 
         void bind() const;
         void unbind() const;
         
         inline unsigned int getId() const { return m_id; }
-        inline const std::vector<Vertex>& getVertices() const { return m_vertices; }
 };
 
 #endif//__VERT_BUFFER_H

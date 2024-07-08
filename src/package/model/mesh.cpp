@@ -13,7 +13,7 @@ void Mesh::setup()
     m_VAO.unbind();
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D*> textures)
     : m_VAO()
     , m_VBO(vertices)
     , m_EBO(indices)
@@ -22,19 +22,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     this->setup();
 }
 
-// Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-//     : m_VAO()
-//     , m_VBO(vertices)
-//     , m_EBO(indices)
-// {
-//     m_Textures = textures;
-//     this->setup();
-// }
-
 void Mesh::draw(Shader &shader)
 {
     this->draw_with_Texture2D(shader);
-    // this->draw_with_Texture(shader);
 }
 
 void Mesh::draw_with_Texture2D(Shader &shader)
@@ -44,12 +34,12 @@ void Mesh::draw_with_Texture2D(Shader &shader)
     unsigned int specNum = 0;
     for (unsigned int i = 0; i < m_textures.size(); ++i)
     {
-        Texture2D& tex = m_textures[i];
+        Texture2D* tex = m_textures[i];
         glActiveTexture(GL_TEXTURE0 + i);
 
         std::string name = "material.";
         name += [tex, &diffNum, &specNum] {
-            switch (tex.getType()) {
+            switch (tex->getType()) {
                 case Texture2D::Type::Diffuse: return "diffuse" + std::to_string(diffNum++);
                 case Texture2D::Type::Specular: return "specular" + std::to_string(specNum++);
                 default: return std::string("error");
@@ -57,7 +47,7 @@ void Mesh::draw_with_Texture2D(Shader &shader)
         }();
 
         shader.setUniInt(name, i);
-        glBindTexture(GL_TEXTURE_2D, tex.getId());
+        glBindTexture(GL_TEXTURE_2D, tex->getId());
     }
 
     m_VAO.bind();
@@ -66,36 +56,5 @@ void Mesh::draw_with_Texture2D(Shader &shader)
     
     glActiveTexture(GL_TEXTURE0);
 }
-
-// void Mesh::draw_with_Texture(Shader &shader)
-// {
-//     shader.bind();
-//     unsigned int diffNum = 0;
-//     unsigned int specNum = 0;
-    
-//     for (unsigned int i = 0; i < m_textures.size(); ++i)
-//     {
-//         Texture2D& tex = m_textures[i];
-//         tex.bind(i);
-
-//         std::string name = "material.";
-//         name += [tex, &diffNum, &specNum] {
-//             switch (tex.getType()) {
-//                 case Texture::Type::Diffuse: return "diffuse" + std::to_string(diffNum++);
-//                 case Texture::Type::Specular: return "specular" + std::to_string(specNum++);
-//                 default: return std::string("error");
-//             }
-//         }();
-
-//         shader.setUniInt(name, i);
-//         std::cout << "[Mesh draw()] [Texture2D] texture bound " << i << " " << m_textures.size() << std::endl;
-//     }
-
-//     m_VAO.bind();
-//     glDrawElements(GL_TRIANGLES, m_EBO.getCount(), GL_UNSIGNED_INT, 0);
-//     m_VAO.unbind();
-    
-//     glActiveTexture(GL_TEXTURE0);
-// }
 
 

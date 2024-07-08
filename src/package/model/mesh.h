@@ -17,16 +17,13 @@ class Mesh
         VertArray m_VAO;
         VertBuffer m_VBO;
         ElemBuffer m_EBO;
-        std::vector<Texture2D> m_textures;
-        // std::vector<Texture> m_Textures;
+        std::vector<Texture2D*> m_textures;
 
         void setup();
         void draw_with_Texture2D(Shader &shader);
-        void draw_with_Texture(Shader &shader);
 
     public:
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
-        // Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D*> textures);
         void draw(Shader& shader);
 };
 

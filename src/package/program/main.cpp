@@ -231,8 +231,8 @@ int main(void)
     objectShader.bind();
     textures[0].bind(0);
     textures[1].bind(1);
-    objectShader.setUniInt("material.diffuse", /* textures[0].getSlot() */ 0);
-    objectShader.setUniInt("material.specular", /* textures[1].getSlot() */ 1);
+    objectShader.setUniInt("material.diffuse", textures[0].getSlot());
+    objectShader.setUniInt("material.specular", textures[1].getSlot());
 
     Shader ourShader("res/shaders/model_loading.frag.vert.glsl");
     Model ourModel("res/models/backpack/backpack.obj");
@@ -245,6 +245,8 @@ int main(void)
         processInput(window);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // cubes
         {
             objectShader.bind();
             objectShader.setUniVec3f("viewPos", camera.getPos());
@@ -316,6 +318,7 @@ int main(void)
             }
         }
 
+        // backpack
         {
             glm::mat4 projection = glm::perspective(glm::radians(camera.getFOV()), Renderer::getAspectRatio(), 0.1f, 100.0f);
             glm::mat4 view = camera.getViewMat();

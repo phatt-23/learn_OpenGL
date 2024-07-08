@@ -1,14 +1,15 @@
 #include "vert_array.h"
 #include <GL/glew.h>
+#include <iostream>
 
-VertArray::VertArray()
-    : m_id(0)
+VertArray::VertArray() : m_id(0)
 {
     glGenVertexArrays(1, &m_id);
 }
 
 VertArray::~VertArray()
 {
+    std::cout << "[INFO] " << __FUNCTION__ << std::endl;
     glDeleteVertexArrays(1, &m_id);
 }
 
@@ -22,7 +23,7 @@ void VertArray::unbind() const
     glBindVertexArray(0);
 }
 
-void VertArray::addBuffer(const VertBuffer &vbo, const VertBuffLayout &layout, const ElemBuffer& ebo)
+void VertArray::addBuffer(const VertBuffer &vbo, const ElemBuffer& ebo, const VertBuffLayout &layout)
 {
     this->bind();
     vbo.bind();

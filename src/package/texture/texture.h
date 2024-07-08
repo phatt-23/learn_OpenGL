@@ -29,6 +29,7 @@ class Texture
         inline int getHeight() const { return m_height; }
         inline int getBPP() const { return m_bpp; }
         inline const std::string& getFilepath() const { return m_filepath; }
+        inline unsigned int getId() const { return m_ID; }
 };
 
 #endif//__TEXTURE_H

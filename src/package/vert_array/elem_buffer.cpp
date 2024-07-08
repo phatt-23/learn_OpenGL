@@ -1,19 +1,19 @@
 #include "elem_buffer.h"
 #include <GL/glew.h>
 
-ElemBuffer::ElemBuffer(const unsigned int *data, const unsigned int count)
+ElemBuffer::ElemBuffer(const unsigned int *data, const unsigned int count, GLenum usage)
 {
     glGenBuffers(1, &m_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_READ);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, usage);
 }
 
-ElemBuffer::ElemBuffer(const std::vector<unsigned int> &indices)
+ElemBuffer::ElemBuffer(const std::vector<unsigned int> indices, GLenum usage)
     : m_indices(indices)
 {
     glGenBuffers(1, &m_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), m_indices.data(), GL_STATIC_READ);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), m_indices.data(), usage);
 }
 
 ElemBuffer::~ElemBuffer()

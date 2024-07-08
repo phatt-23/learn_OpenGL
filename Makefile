@@ -1,6 +1,6 @@
 #( MAKEFILE FOR C/C++ PROJECTS )
 # >>> common
-CC					:= clang++
+CC					:= g++
 CFLAGS				:= -std=c++23 -Wall -Wextra -g #-Qunused-arguments #-std=c23
 LDFLAGS   			:= -lglfw -lGL -lGLEW -lGLU -lOpenGL -lassimp -lX11 -lpthread -lm
 SHOW_CMD  			?=#@
@@ -11,7 +11,7 @@ OBJ_DIR   			:= $(BIN_DIR)/obj
 SRC_DIR				:= src
 VENDOR_DIR 			:= $(SRC_DIR)/vendor
 PACKAGE_DIR 		:= $(SRC_DIR)/package
-TEST_DIR 			:= $(SRC_DIR)/test
+TEST_DIR 			:= #$(SRC_DIR)/test
 
 # >>> gathering source files
 SRCS 				:= $(shell find $(SRC_DIR) -type f -name '*.cpp' -o -name '*.c')

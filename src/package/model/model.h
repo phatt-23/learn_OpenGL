@@ -15,17 +15,19 @@ class Model
         // var
         std::string m_filepath;
         std::string m_directory;
-        std::vector<Mesh> m_meshes;
-        std::vector<Texture> m_loadedTexturesCache;
+        std::vector<Mesh*> m_meshes;
+        std::vector<Texture2D> m_loadedTexturesCache;
 
         // fn
         void loadModel(const std::string& filepath);
         void processNode(aiNode* node, const aiScene* scene);
-        Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-        std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType aiType, Texture::Type txType);
+        Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
+        std::vector<Texture2D> loadMaterialTextures(aiMaterial* mat, aiTextureType aiType, Texture::Type txType);
 
     public:
         Model(const std::string& filepath);
+        ~Model();
+
         void draw(Shader& shader);
 };
 

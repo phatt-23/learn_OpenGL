@@ -13,10 +13,14 @@ class VertArray
     public:
         VertArray();
         ~VertArray();
+        
         void bind() const;
         void unbind() const;
-        void addBuffer(const VertBuffer& vbo, const VertBuffLayout& layout, const ElemBuffer& ebo);
+        
+        void addBuffer(const VertBuffer& vbo, const ElemBuffer& ebo, const VertBuffLayout& layout);
         void addBuffer(const VertBuffer& vbo, const VertBuffLayout& layout);
+        
+        inline unsigned int getId() const { return m_id; }
 };
 
 #endif//__VERT_ARRAY_H

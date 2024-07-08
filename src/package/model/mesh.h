@@ -9,19 +9,27 @@
 #include "../shader/shader.h"
 #include "../vert_array/vert_array.h"
 
+struct Texture2D
+{
+    unsigned int id;
+    Texture::Type type;
+    std::string path;
+};
+
 class Mesh
 {
     private:
-        VertBuffer m_vbo;
-        ElemBuffer m_ebo;
-        VertArray m_vao;
+        std::vector<Vertex> m_vertices;
+        std::vector<unsigned int> m_indices;
+        std::vector<Texture2D> m_textures;
+        VertArray m_VAO;
+        VertBuffer m_VBO;
+        ElemBuffer m_EBO;
 
-        std::vector<Texture> m_textures;
-        
         void setup();
 
     public:
-        Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures);
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
         void draw(Shader& shader);
 };
 

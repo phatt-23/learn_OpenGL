@@ -1,0 +1,30 @@
+#include <glm/glm.hpp>
+#include <iostream>
+
+struct glmVertex
+{
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 texcoords;
+    static inline glmVertex makeVertex(float p0, float p1, float p2, float n0, float n1, float n2, float t0, float t1)
+    {
+        return glmVertex {
+            .position = { p0, p1, p2 },
+            .normal = { n0, n1, n2 },
+            .texcoords = { t0, t1 },
+        };
+    }
+};
+
+
+int main() {
+    std::cout << sizeof(glmVertex) << " <compare> " << 8 * sizeof(float) << std::endl;
+    glmVertex v = glmVertex::makeVertex(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+
+    float* vp = (float*) &v;
+    for (size_t i = 0; i < 8; ++i) {
+        std::cout << vp[i] << std::endl;
+    }
+
+    return 0;
+}

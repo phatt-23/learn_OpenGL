@@ -323,7 +323,7 @@ int main(void)
             model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
             ourShader.bind();
-            ourShader.setUniMat4("projection", projection);
+            ourShader.setUniMat4("proj", projection);
             ourShader.setUniMat4("view", view);
             ourShader.setUniMat4("model", model);
 

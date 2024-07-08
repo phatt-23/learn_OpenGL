@@ -14,22 +14,27 @@ struct Texture2D
     unsigned int id;
     Texture::Type type;
     std::string path;
+    
+    Texture2D(const std::string& filepath, Texture::Type type);
+    void loadTextureFromFile(const std::string& filepath, Texture::Type type);
 };
 
 class Mesh
 {
     private:
-        std::vector<Vertex> m_vertices;
-        std::vector<unsigned int> m_indices;
-        std::vector<Texture2D> m_textures;
         VertArray m_VAO;
         VertBuffer m_VBO;
         ElemBuffer m_EBO;
+        std::vector<Texture2D> m_textures;
+        std::vector<Texture> m_Textures;
 
         void setup();
+        void draw_with_Texture2D(Shader &shader);
+        void draw_with_Texture(Shader &shader);
 
     public:
         Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
         void draw(Shader& shader);
 };
 

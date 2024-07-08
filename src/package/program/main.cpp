@@ -223,16 +223,16 @@ int main(void)
 
     Shader objectShader = { "res/shaders/object.frag.vert.glsl" };
     Shader lightCubeShader = { "res/shaders/light.frag.vert.glsl" };
-    Texture textures[] = {
-        {"./res/images/container2.png",          Texture::Type::Diffuse  },
-        {"./res/images/container2_specular.png", Texture::Type::Specular },
+    Texture2D textures[] = {
+        {"./res/images/container2.png",          Texture2D::Type::Diffuse  },
+        {"./res/images/container2_specular.png", Texture2D::Type::Specular },
     };
 
     objectShader.bind();
     textures[0].bind(0);
     textures[1].bind(1);
-    objectShader.setUniInt("material.diffuse", textures[0].getSlot());
-    objectShader.setUniInt("material.specular", textures[1].getSlot());
+    objectShader.setUniInt("material.diffuse", /* textures[0].getSlot() */ 0);
+    objectShader.setUniInt("material.specular", /* textures[1].getSlot() */ 1);
 
     Shader ourShader("res/shaders/model_loading.frag.vert.glsl");
     Model ourModel("res/models/backpack/backpack.obj");

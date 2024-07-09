@@ -32,17 +32,8 @@ void Camera::updateVectors()
     m_MouseHandler.resetLastCursor();
 }
 
-Camera::Camera(GLFWwindow* window, const glm::vec3 &pos, const glm::vec3& front, const glm::vec3 &up, float yaw, float pitch)
-    : m_pos(pos)
-    , m_front(front)
-    , m_up(up)
-    , m_right(glm::cross(front, up))
-    , m_worldUp(CAM_UP)
-    , m_yaw(yaw)
-    , m_pitch(pitch)
-    , m_fov(CAM_FOV)
-    , m_moveSpeed(CAM_MOVE_SPEED)
-    , m_MouseHandler(window, CAM_MOUSE_SENSI, CAM_SCROLL_SENSI)
+Camera::Camera(GLFWwindow *window, const glm::vec3 &pos, const glm::vec3 &front, const glm::vec3 &up, float yaw, float pitch)
+    : m_pos(pos), m_front(front), m_up(up), m_right(glm::cross(front, up)), m_worldUp(CAM_UP), m_yaw(yaw), m_pitch(pitch), m_fov(CAM_FOV), m_moveSpeed(CAM_MOVE_SPEED), m_MouseHandler(window, CAM_MOUSE_SENSI, CAM_SCROLL_SENSI)
 {
     this->updateVectors();
 }

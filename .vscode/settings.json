@@ -55,6 +55,7 @@
         "variant": "cpp",
         "fstream": "cpp",
         "sstream": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "io_context": "cpp"
     }
 }

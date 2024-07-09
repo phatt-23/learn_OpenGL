@@ -9,7 +9,7 @@ VertArray::VertArray() : m_id(0)
 
 VertArray::~VertArray()
 {
-    std::cout << "[INFO] " << __FUNCTION__ << std::endl;
+    // std::cout << "[INFO] " << __FUNCTION__ << std::endl;
     glDeleteVertexArrays(1, &m_id);
 }
 
@@ -28,7 +28,7 @@ void VertArray::addBuffer(const VertBuffer &vbo, const ElemBuffer& ebo, const Ve
     this->bind();
     vbo.bind();
     ebo.bind();
-    unsigned int offset = 0;
+    std::size_t offset = 0;
     const auto& elems = layout.getElems();
     for (std::size_t i = 0; i < elems.size(); ++i) {
         const auto& e = elems[i];
@@ -43,7 +43,7 @@ void VertArray::addBuffer(const VertBuffer &vbo, const VertBuffLayout &layout)
 {
     this->bind();
     vbo.bind();
-    unsigned int offset = 0;
+    std::size_t offset = 0;
     const auto& elems = layout.getElems();
     for (std::size_t i = 0; i < elems.size(); ++i) {
         const auto& e = elems[i];

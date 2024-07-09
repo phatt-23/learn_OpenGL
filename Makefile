@@ -1,6 +1,6 @@
 #( MAKEFILE FOR C/C++ PROJECTS )
 # >>> common
-CC					:= g++
+CC					:= clang++
 CFLAGS				:= -std=c++23 -Wall -Wextra -g #-Qunused-arguments #-std=c23
 LDFLAGS   			:= -lglfw -lGL -lGLEW -lGLU -lOpenGL -lassimp -lX11 -lpthread -lm
 SHOW_CMD  			?=#@
@@ -63,13 +63,13 @@ val:
 clean: 
 	@if [ -d "$(BIN_DIR)" ]; then \
 		echo -e "$(GREEN)$(BD_SYS) Removing the '$(<U>)$(BIN_DIR)$(</U>)' directory. $(RESET)"; \
-		rm -rf $(OBJ_DIR) $(BIN_DIR); \
+		rm -rf $(OBJ_DIR); \
 	else \
   		echo "$(RED)$(BD_SYS) Error: Directory '$(<U>)$(BIN_DIR)$(</U>)' does not exist."; \
 	fi
 # <<<
 dirs:
-ifeq (,$(wildcard $(OBJ_DIR) $(BIN_DIR)))
+ifeq (,$(wildcard $(OBJ_DIR)))
 	@echo "$(GREEN)$(BD_SYS) Creating the directory system. $(RESET)"
 	$(SHOW_CMD)mkdir -p $(OBJ_DIR) $(BIN_DIR) $(SRC_DIR) $(PACKAGE_DIR) $(VENDOR_DIR) $(TEST_DIR)
 endif

@@ -42,14 +42,13 @@ Shader::ShaderProgramSource Shader::parseShaderSource(const std::string &filepat
             ss[int(type)] << line << std::endl;
     }
 
-    std::cout
-        << "[Compiling Shaders (" << filepath << ")]" << std::endl 
-        << "<Vertex Shader> :: length=" << ss[0].str().length() << std::endl
-        << ss[0].str() 
-        << "</Vertex Shader>" << std::endl 
-        << "<Fragment Shader> :: length=" << ss[1].str().length() << std::endl
-        << ss[1].str() 
-        << "</Fragment Shader>" << std::endl;
+    std::cout << "[Compiling Shaders (" << filepath << ")]" << std::endl;
+        // << "<Vertex Shader> :: length=" << ss[0].str().length() << std::endl
+        // << ss[0].str() 
+        // << "</Vertex Shader>" << std::endl 
+        // << "<Fragment Shader> :: length=" << ss[1].str().length() << std::endl
+        // << ss[1].str() 
+        // << "</Fragment Shader>" << std::endl;
     
     return ShaderProgramSource{ ss[0].str(), ss[1].str() };
 }
@@ -91,9 +90,12 @@ unsigned int Shader::createProgram(const ShaderProgramSource &shaders)
     return program;
 }
 
-Shader::Shader(const std::string &filepath) 
-    : m_id(0)
-    , m_filepath(filepath)
+Shader::Shader()
+{
+}
+
+Shader::Shader(const std::string &filepath)
+    : m_id(0), m_filepath(filepath)
 {
     m_id = this->createProgram(this->parseShaderSource(filepath));
 }
@@ -125,117 +127,117 @@ int Shader::getUniormLocation(const std::string &name)
     return location;
 }
 
-void Shader::setUniFloat(const std::string &name, float v)
+void Shader::setFloat(const std::string &name, float v)
 {
     glUniform1f(this->getUniormLocation(name), v);
 }
 
-void Shader::setUniVec1f(const std::string &name, float v0)
+void Shader::setVec1f(const std::string &name, float v0)
 {
     glUniform1f(this->getUniormLocation(name), v0);
 }
 
-void Shader::setUniVec2f(const std::string& name, float v0, float v1) 
+void Shader::setVec2f(const std::string& name, float v0, float v1) 
 {
     glUniform2f(this->getUniormLocation(name), v0, v1);
 }
 
-void Shader::setUniVec3f(const std::string& name, float v0, float v1, float v2) 
+void Shader::setVec3f(const std::string& name, float v0, float v1, float v2) 
 {
     glUniform3f(this->getUniormLocation(name), v0, v1, v2);
 }
 
-void Shader::setUniVec4f(const std::string& name, float v0, float v1, float v2, float v3) 
+void Shader::setVec4f(const std::string& name, float v0, float v1, float v2, float v3) 
 {
     glUniform4f(this->getUniormLocation(name), v0, v1, v2, v3);
 }
 
-void Shader::setUniVec3f(const std::string &name, const glm::vec3 &v)
+void Shader::setVec3f(const std::string &name, const glm::vec3 &v)
 {
     glUniform3fv(this->getUniormLocation(name), 1, glm::value_ptr(v));
 }
 
-void Shader::setUniVec4f(const std::string &name, const glm::vec4 &v)
+void Shader::setVec4f(const std::string &name, const glm::vec4 &v)
 {
     glUniform4fv(this->getUniormLocation(name), 1, glm::value_ptr(v));
 }
 
-void Shader::setUniDouble(const std::string &name, double v)
+void Shader::setDouble(const std::string &name, double v)
 {
     glUniform1d(this->getUniormLocation(name), v);
 }
 
-void Shader::setUniVec1d(const std::string &name, double v0)
+void Shader::setVec1d(const std::string &name, double v0)
 {
     glUniform1d(this->getUniormLocation(name), v0);
 }
 
-void Shader::setUniVec2d(const std::string& name, double v0, double v1) 
+void Shader::setVec2d(const std::string& name, double v0, double v1) 
 {
     glUniform2d(this->getUniormLocation(name), v0, v1);
 }
 
-void Shader::setUniVec3d(const std::string& name, double v0, double v1, double v2) 
+void Shader::setVec3d(const std::string& name, double v0, double v1, double v2) 
 {
     glUniform3d(this->getUniormLocation(name), v0, v1, v2);
 }
 
-void Shader::setUniVec4d(const std::string& name, double v0, double v1, double v2, double v3) 
+void Shader::setVec4d(const std::string& name, double v0, double v1, double v2, double v3) 
 {
     glUniform4d(this->getUniormLocation(name), v0, v1, v2, v3);
 }
 
-void Shader::setUniInt(const std::string &name, int v)
+void Shader::setInt(const std::string &name, int v)
 {
     glUniform1i(this->getUniormLocation(name), v);
 }
 
-void Shader::setUniVec1i(const std::string &name, int v0)
+void Shader::setVec1i(const std::string &name, int v0)
 {
     glUniform1i(this->getUniormLocation(name), v0);
 }
 
-void Shader::setUniVec2i(const std::string& name, int v0, int v1) 
+void Shader::setVec2i(const std::string& name, int v0, int v1) 
 {
     glUniform2i(this->getUniormLocation(name), v0, v1);
 }
 
-void Shader::setUniVec3i(const std::string& name, int v0, int v1, int v2) 
+void Shader::setVec3i(const std::string& name, int v0, int v1, int v2) 
 {
     glUniform3i(this->getUniormLocation(name), v0, v1, v2);
 }
 
-void Shader::setUniVec4i(const std::string& name, int v0, int v1, int v2, int v3) 
+void Shader::setVec4i(const std::string& name, int v0, int v1, int v2, int v3) 
 {
     glUniform4i(this->getUniormLocation(name), v0, v1, v2, v3);
 }
 
-void Shader::setUniUInt(const std::string &name, unsigned int v)
+void Shader::setUInt(const std::string &name, unsigned int v)
 {
     glUniform1ui(this->getUniormLocation(name), v);
 }
 
-void Shader::setUniVec1ui(const std::string& name, unsigned int v0) 
+void Shader::setVec1ui(const std::string& name, unsigned int v0) 
 {
     glUniform1ui(this->getUniormLocation(name), v0);
 }
 
-void Shader::setUniVec2ui(const std::string& name, unsigned int v0, unsigned int v1) 
+void Shader::setVec2ui(const std::string& name, unsigned int v0, unsigned int v1) 
 {
     glUniform2ui(this->getUniormLocation(name), v0, v1);
 }
 
-void Shader::setUniVec3ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2) 
+void Shader::setVec3ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2) 
 {
     glUniform3ui(this->getUniormLocation(name), v0, v1, v2);
 }
 
-void Shader::setUniVec4ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) 
+void Shader::setVec4ui(const std::string& name, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) 
 {
     glUniform4ui(this->getUniormLocation(name), v0, v1, v2, v3);
 }
 
-void Shader::setUniMat4(const std::string &name, const glm::mat4 &m)
+void Shader::setMat4(const std::string &name, const glm::mat4 &m)
 {
     glUniformMatrix4fv(this->getUniormLocation(name), 1, GL_FALSE, glm::value_ptr(m));
 }

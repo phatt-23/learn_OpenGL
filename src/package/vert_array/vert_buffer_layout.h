@@ -2,6 +2,7 @@
 #define __VERT_BUFFER_LAYOUT_H
 
 #include <vector>
+#include <system_error>
 
 struct VertBuffElem
 {
@@ -31,9 +32,8 @@ template <> void VertBuffLayout::push<unsigned int>(unsigned int count);
 template <> void VertBuffLayout::push<unsigned char>(unsigned int count);
 
 template <typename T>
-void VertBuffLayout::push(unsigned int count) {
-    static_assert(false && "[VertBuffLayout::push] Unsupported type, must be of [float, uint, uchar]");
-    (void)count;
+void VertBuffLayout::push(unsigned int count [[maybe_unused]]) {
+    throw std::runtime_error("[VertBuffLayout::push] Unsupported type, must be of [float, uint, uchar]");
 }
 
 #endif//__VERT_BUFFER_LAYOUT_H

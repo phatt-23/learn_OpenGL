@@ -8,8 +8,7 @@
 #include "../texture/texture.h"
 #include "../shader/shader.h"
 #include "../vert_array/vert_array.h"
-
-
+#include "../vert_array/vertex.h"
 
 class Mesh
 {
@@ -20,10 +19,10 @@ class Mesh
         std::vector<Texture2D*> m_textures;
 
         void setup();
-        void draw_with_Texture2D(Shader &shader);
 
     public:
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D*> textures);
+        Mesh(const std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D*> textures);
+        ~Mesh();
         void draw(Shader& shader);
 };
 

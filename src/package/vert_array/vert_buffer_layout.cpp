@@ -1,7 +1,5 @@
 #include "vert_buffer_layout.h"
 #include <GL/glew.h>
-#include <cassert>
-#include <typeinfo>
 #include <iostream>
 
 unsigned int VertBuffElem::getSizeOfType(unsigned int type)
@@ -10,7 +8,7 @@ unsigned int VertBuffElem::getSizeOfType(unsigned int type)
         case GL_FLOAT:         return sizeof(float);
         case GL_UNSIGNED_INT:  return sizeof(unsigned int);  
         case GL_UNSIGNED_BYTE: return sizeof(unsigned char);
-        default:               assert(false && "[VertBuffElem] Incompatible type!"); 
+        default:               throw std::runtime_error("[VertBuffElem] Incompatible type!"); 
     };
     return 0; 
 }

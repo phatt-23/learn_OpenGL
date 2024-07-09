@@ -5,21 +5,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-struct Vertex
-{
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texcoords;
-    static inline Vertex make(float p0, float p1, float p2, float n0, float n1, float n2, float t0, float t1)
-    {
-        return Vertex {
-            .position = { p0, p1, p2 },
-            .normal = { n0, n1, n2 },
-            .texcoords = { t0, t1 },
-        };
-    }
-};
-
+#include "vertex.h"
 
 class VertBuffer
 {

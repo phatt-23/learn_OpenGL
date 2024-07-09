@@ -23,9 +23,10 @@ class Model
         void loadModel(const std::string& filepath);
         void processNode(aiNode* node, const aiScene* scene);
         Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
-        std::vector<Texture2D*> loadMaterialTextures_Texture2D(aiMaterial* mat, aiTextureType aiType, Texture2D::Type txType);
+        std::vector<Texture2D*> loadMaterialTextures_Texture2D(aiMaterial* mat, aiTextureType aiType);
 
     public:
+        Model();
         Model(const std::string& filepath);
         ~Model();
 

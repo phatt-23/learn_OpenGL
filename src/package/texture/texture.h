@@ -7,7 +7,7 @@
 class Texture2D
 {
     public: 
-        enum class Type { Diffuse, Specular };
+        enum class Type { Diffuse, Specular, Normal, Height };
 
     private:
         unsigned int m_id;

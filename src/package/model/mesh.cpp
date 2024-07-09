@@ -3,13 +3,27 @@
 #include "../renderer/renderer.h"
 #include "../../vendor/stb/stb_image.h"
 
-void Mesh::setup()
+template<typename T>
+static VertBuffLayout getLayout()
+{
+    throw std::runtime_error(std::format("[ERROR] UNsupported template {} {} {}", __FILE__, __LINE__, __FUNCTION__));
+}
+ 
+template<>
+VertBuffLayout getLayout<Vertex>()
 {
     VertBuffLayout layout;
     layout.push<float>(3);
     layout.push<float>(3);
     layout.push<float>(2);
-    m_VAO.addBuffer(m_VBO, m_EBO, layout);
+    layout.push<float>(3);
+    layout.push<float>(3);
+    return layout;
+}
+
+void Mesh::setup()
+{
+    m_VAO.addBuffer(m_VBO, m_EBO, getLayout<Vertex>());
     m_VAO.unbind();
 }
 
@@ -22,12 +36,12 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     this->setup();
 }
 
-void Mesh::draw(Shader &shader)
+Mesh::~Mesh()
 {
-    this->draw_with_Texture2D(shader);
+    // delete m_verticesPtr;
 }
 
-void Mesh::draw_with_Texture2D(Shader &shader)
+void Mesh::draw(Shader &shader)
 {
     shader.bind();
     unsigned int diffNum = 0;
@@ -40,13 +54,15 @@ void Mesh::draw_with_Texture2D(Shader &shader)
         std::string name = "material.";
         name += [tex, &diffNum, &specNum] {
             switch (tex->getType()) {
-                case Texture2D::Type::Diffuse: return "diffuse" + std::to_string(diffNum++);
+                case Texture2D::Type::Diffuse:  return "diffuse"  + std::to_string(diffNum++);
                 case Texture2D::Type::Specular: return "specular" + std::to_string(specNum++);
+                case Texture2D::Type::Normal:   return "normal"   + std::to_string(specNum++);
+                case Texture2D::Type::Height:   return "height"   + std::to_string(specNum++);
                 default: return std::string("error");
             }
         }();
 
-        shader.setUniInt(name, i);
+        shader.setInt(name, i);
         glBindTexture(GL_TEXTURE_2D, tex->getId());
     }
 
@@ -56,5 +72,6 @@ void Mesh::draw_with_Texture2D(Shader &shader)
     
     glActiveTexture(GL_TEXTURE0);
 }
+
 
 
